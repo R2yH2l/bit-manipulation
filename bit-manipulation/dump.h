@@ -1,5 +1,6 @@
 #pragma once
 
+#include <sstream>
 #include <string>
 #include <cstddef>
 
@@ -17,8 +18,8 @@ namespace utl {
     template<typename T>
     static inline std::string dump_bin(const T& obj) {
         const size_t size_in_bytes{ sizeof(T) };
-        const size_t alignment_in_bytes{ alignof(T) };
-        const uintptr_t address{ reinterpret_cast<uintptr_t>(&obj) };
+        //const size_t alignment_in_bytes{ alignof(T) };
+        //const uintptr_t address{ reinterpret_cast<uintptr_t>(&obj) };
 
         const char* const nibbles[] = {
             "0000", "0001", "0010", "0011",
@@ -28,19 +29,19 @@ namespace utl {
         };
 
         std::string str{};
+        //str.resize((address & 0xF) * 8, ' ');
 
-        for (size_t ind{}; ind < size_in_bytes; ind++) {
+        for (size_t ind{ size_in_bytes - 1 }; ind >= 0 && ind <= size_in_bytes; ind--) {
             const unsigned char* const byte{ reinterpret_cast<const unsigned char* const>(&obj) + ind };
 
-            str += nibbles[*byte >> 4];
-            str += nibbles[*byte & 0xF];
+            str += nibbles[*byte >> 4]; str += " ";
+            str += nibbles[*byte & 0xF]; if (ind > 0) str += " ";
         }
 
-        if (!str.empty() && str.back() == ' ') { str.pop_back(); }
+        //if (!str.empty() && str.back() == ' ') { str.pop_back(); }
 
         return str;
     }
-
 
     /*-------------------------------------------------------------*
     *  Dump Hex                                                    *
@@ -48,8 +49,8 @@ namespace utl {
     template<typename T>
     static inline std::string dump_hex(const T& obj) {
         const size_t size_in_bytes{ sizeof(T) };
-        const size_t alignment_in_bytes{ alignof(T) };
-        const uintptr_t address{ reinterpret_cast<uintptr_t>(&obj) };
+        //const size_t alignment_in_bytes{ alignof(T) };
+        //const uintptr_t address{ reinterpret_cast<uintptr_t>(&obj) };
 
         const char* const nibbles[] = {
             "0", "1", "2", "3",
@@ -59,15 +60,16 @@ namespace utl {
         };
 
         std::string str{};
+        //str.resize((address & 0xF), ' ');
 
-        for (size_t ind{}; ind < size_in_bytes; ind++) {
+        for (size_t ind{ size_in_bytes - 1 }; ind >= 0 && ind <= size_in_bytes; ind--) {
             const unsigned char* const byte{ reinterpret_cast<const unsigned char* const>(&obj) + ind };
 
             str += nibbles[*byte >> 4];
-            str += nibbles[*byte & 0xF];
+            str += nibbles[*byte & 0xF]; if (ind > 0) str += " ";
         }
 
-        if (!str.empty() && str.back() == ' ') { str.pop_back(); }
+        //if (!str.empty() && str.back() == ' ') { str.pop_back(); }
 
         return str;
     }
