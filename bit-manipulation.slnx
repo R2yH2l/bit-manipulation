@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="bit-manipulation/bit-manipulation.vcxproj" />
+  <Project Path="bit-manipulation/bit-manipulation.vcxproj" Id="8be5d539-bbcb-4cc6-b767-810a1af1913d" />
 </Solution>
